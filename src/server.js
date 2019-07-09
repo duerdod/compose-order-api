@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const MongoClient = require('mongoose');
-const Products = require('./Schema');
+const Products = require('./Schemas/Schema');
 const cors = require('cors');
 
 // ENV
@@ -18,18 +18,18 @@ MongoClient.connect(connectionString, {
     // console.log(res);
     return res;
   })
-  .catch(err => new Error(`No connected to db...) ${err}`));
+  .catch(err => new Error(`No connected to db... \n ${err}`));
 
 // Not used
-// const db = MongoClient.connection;
-// db.once('open', () => Products.find((err, data) => console.log(data)));
+const db = MongoClient.connection;
+db.on('error', e => console.log(e));
 
-function getAllProducts(response) {
+const getAllProducts = response => {
   Products.find((err, data) => {
     if (err) return response.json({ success: false, error: err });
     return response.json({ success: true, products: data });
   });
-}
+};
 
 app.get('/', (request, response) => {
   getAllProducts(response);
