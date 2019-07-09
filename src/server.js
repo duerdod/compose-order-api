@@ -2,20 +2,34 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const MongoClient = require('mongoose');
+const Products = require('./Schema');
+const router = express.Router();
+
+// ENV
 const port = process.env.PORT || 7000;
 const connectionString = process.env.CONNECTION_STRING;
 
 MongoClient.connect(connectionString, {
   useNewUrlParser: true
 })
-  .then(res => res)
+  .then(res => {
+    // console.log(res);
+    return res;
+  })
   .catch(err => new Error(`No connected to db...) ${err}`));
 
 const db = MongoClient.connection;
+db.once('open', () => Products.find((err, data) => console.log(data)));
+
+function getAllProducts(response) {
+  Products.find((err, data) => {
+    if (err) return response.json({ success: false, error: err });
+    return response.json({ success: true, products: data });
+  });
+}
 
 app.get('/', (request, response) => {
-  response.send('yello');
-  db.once('open', console.log('Connected'));
+  getAllProducts(response);
 });
 
 app.listen(port, () => console.log(`Server is listening on ${port}`));
