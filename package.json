@@ -1,0 +1,28 @@
+{
+  "name": "compose-order-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "/src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/erikpehrers/compose-order-api.git"
+  },
+  "dependencies": {
+    "body-parser": "*",
+    "cors": "*",
+    "express": "*",
+    "mongoose": "*",
+    "morgan": "*",
+    "nodemon": "^1.19.1"
+  },
+  "author": "erikp",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/erikpehrers/compose-order-api/issues"
+  },
+  "homepage": "https://gitlab.com/erikpehrers/compose-order-api#readme"
+}
