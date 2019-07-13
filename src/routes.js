@@ -1,16 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const getAll = require('./api/')
+const getAll = require('./api/getProducts');
 
-router.use((req, res, next) => {
-  console.log(`Todays date: \n ${new Date().getFullYear()}`);
+router.use('/api', (req, res, next) => {
   next();
 });
 
 router.get('/', (req, res) => {
-  res.send('This year is logged to the console.');
+  getAll(res);
 });
 
 module.exports = router;
-
