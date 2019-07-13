@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+// Create schema
 const ProductSchema = new Schema(
   {
     _id: Number,
@@ -13,4 +14,5 @@ const ProductSchema = new Schema(
   { timestamps: true }
 );
 
+// Create and export model
 module.exports = mongoose.model('Product', ProductSchema);
