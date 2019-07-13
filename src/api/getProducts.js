@@ -1,10 +1,8 @@
-const Products = require('../Schemas/Schema');
+const Products = require('../Schemas/Products');
 
-const getAllProducts = response => {
-  Products.find((err, data) => {
+exports.getProducts = response => {
+  Products.find((err, products) => {
     if (err) return response.json({ success: false, error: err });
-    return response.json({ success: true, products: data });
+    return response.json({ success: true, products });
   });
 };
-
-module.exports = getAllProducts;

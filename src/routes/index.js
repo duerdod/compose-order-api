@@ -1,14 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const getAll = require('./api/getProducts');
-
-router.use('/api', (req, res, next) => {
-  next();
-});
+const getAll = require('../api/getProducts');
 
 router.get('/', (req, res) => {
-  getAll(res);
+  res.redirect('/products');
 });
 
 module.exports = router;

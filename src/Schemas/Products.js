@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // Create schema
-const ProductSchema = new Schema(
+const Products = new Schema(
   {
     _id: Number,
     groupId: Number,
@@ -15,4 +15,4 @@ const ProductSchema = new Schema(
 );
 
 // Create and export model
-module.exports = mongoose.model('Product', ProductSchema);
+module.exports = mongoose.model('Products', Products, 'products');

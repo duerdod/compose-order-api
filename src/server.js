@@ -9,7 +9,7 @@ const port = process.env.PORT || 7000;
 const connectionString = process.env.CONNECTION_STRING;
 
 // Routes
-const products = require('./routes');
+const { getProduct, getProducts } = require('./api/index');
 
 // Enables CORS.
 app.use(cors());
@@ -23,7 +23,7 @@ MongoClient.connect(connectionString, {
   // This does not catch any networkerrors from MongoDB. Rewrite!
   // Steps to recreate:
   // 1. Remove white listning from MongoDB GUI.
-  // 2. Now, not logging error.
+  // 2. Now, no error logging.
   .catch(err => new Error(`No connected to db... \n ${err}`));
 
 // This however returns an error when failing. Combine this and resvolver above?
@@ -33,12 +33,13 @@ db.on('error', e => console.log(e));
 // Exec on route '/'.
 app.get('/', (request, response) => {});
 
-// Routes:
-app.use('/api', products);
+// // Routes:
+app.use('/api/products', (req, res) => {
+  getProducts.getProducts(res);
+});
 
-app.use('/product/:id', (req, res) => {
-  console.log(req.params.id);
-  res.send({ success: true });
+app.use('/api/product/:id', (req, res) => {
+  getProduct.getProduct(req, res);
 });
 
 app.listen(port, () => console.log(`Server is listening on ${port}`));
