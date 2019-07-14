@@ -16,9 +16,13 @@
     "cors": "*",
     "dotenv": "^8.0.0",
     "express": "*",
+    "express-graphql": "^0.8.0",
+    "graphql": "^14.4.2",
+    "graphql-yoga": "^1.18.0",
     "mongoose": "*",
     "morgan": "*",
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "prisma-client-lib": "^1.34.1"
   },
   "author": "erikp",
   "license": "ISC",

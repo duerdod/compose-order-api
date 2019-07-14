@@ -1,0 +1,17 @@
+type User {
+  id: ID! @id
+  name: String!
+}
+
+type Product {
+  id: ID! @id
+  groupId: Int!
+  name: String!
+  subname: String
+  description: String
+  images: String
+  price: Int!
+  currency: String!
+  qty: Int!
+  qtySuffix: String!
+}
