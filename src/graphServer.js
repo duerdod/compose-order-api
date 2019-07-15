@@ -5,6 +5,7 @@ const { typeDefs } = require('../generated/prisma-client/prisma-schema');
 
 function createServer() {
   return new GraphQLServer({
+    debug: true,
     typeDefs,
     resolvers: {
       Query

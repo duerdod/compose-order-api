@@ -1,6 +1,6 @@
-endpoint: https://eu1.prisma.sh/erpe18-48bd69/compose-order-api/dev
+endpoint: ${env:PRISMA_ENDPOINT}
 datamodel: datamodel.prisma
 
-generate:
+generate:g
   - generator: javascript-client
     output: ./generated/prisma-client/
