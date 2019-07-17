@@ -1,11 +1,9 @@
-// const { prisma } = require('../../generated/prisma-client');
-
 const Query = {
-  products(root, args, context) {
-    return context.prisma.products();
+  products(root, args, ctx) {
+    return ctx.prisma.products();
   },
-  product(root, args, context) {
-    return context.prisma.product({ where: { id: args.Id } });
+  async product(root, args, context) {
+    return context.prisma.product({ id: args.id });
   }
 };
 

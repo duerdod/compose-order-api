@@ -1,3 +1,16 @@
+type Product {
+  id: ID!
+  groupId: Int!
+  name: String!
+  subname: String
+  description: String
+  images: String
+  price: Int!
+  currency: String!
+  qty: Int!
+  qtySuffix: String!
+}
+
 type Query {
   products: [Product]
   product(id: ID!): Product
