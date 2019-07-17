@@ -1,14 +1,17 @@
 require('dotenv').config();
-// const express = require('express');
-// const app = express();
 
 // Create Yoga-Express server
 const createServer = require('./graphServer');
 const server = createServer();
 
 // ENV
-const port = process.env.PORT || 7000;
+const port = process.env.NODE_ENV === 'production' ? process.env.PORT : 3000;
+
+server.use('/addproduct', (req, res, next) => {
+  console.log(req);
+  console.log('req');
+});
 
 server.start(() => {
-  console.log(`server is running on ${port}`);
+  console.log(`server is running on http://localhost:${port}`);
 });

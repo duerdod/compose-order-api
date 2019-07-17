@@ -8,8 +8,13 @@ function createServer() {
     resolvers: {
       Query
     },
-    context: { prisma },
-    debug: true,
+    context: request => {
+      return {
+        ...request,
+        prisma
+      };
+    },
+    debug: process.env.NODE_ENV === 'development',
     resolverValidationOptions: { requireResolversForResolveType: false }
   });
 }
