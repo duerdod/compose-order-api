@@ -17,6 +17,7 @@ export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
   product: (where?: ProductWhereInput) => Promise<boolean>;
+  user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
 export interface Node {}
@@ -57,6 +58,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => ProductConnectionPromise;
+  user: (where: UserWhereUniqueInput) => UserNullablePromise;
+  users: (args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<User>;
+  usersConnection: (args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => UserConnectionPromise;
   node: (args: { id: ID_Output }) => Node;
 
   /**
@@ -79,6 +99,22 @@ export interface Prisma {
   }) => ProductPromise;
   deleteProduct: (where: ProductWhereUniqueInput) => ProductPromise;
   deleteManyProducts: (where?: ProductWhereInput) => BatchPayloadPromise;
+  createUser: (data: UserCreateInput) => UserPromise;
+  updateUser: (args: {
+    data: UserUpdateInput;
+    where: UserWhereUniqueInput;
+  }) => UserPromise;
+  updateManyUsers: (args: {
+    data: UserUpdateManyMutationInput;
+    where?: UserWhereInput;
+  }) => BatchPayloadPromise;
+  upsertUser: (args: {
+    where: UserWhereUniqueInput;
+    create: UserCreateInput;
+    update: UserUpdateInput;
+  }) => UserPromise;
+  deleteUser: (where: UserWhereUniqueInput) => UserPromise;
+  deleteManyUsers: (where?: UserWhereInput) => BatchPayloadPromise;
 
   /**
    * Subscriptions
@@ -91,6 +127,9 @@ export interface Subscription {
   product: (
     where?: ProductSubscriptionWhereInput
   ) => ProductSubscriptionPayloadSubscription;
+  user: (
+    where?: UserSubscriptionWhereInput
+  ) => UserSubscriptionPayloadSubscription;
 }
 
 export interface ClientConstructor<T> {
@@ -123,11 +162,37 @@ export type ProductOrderByInput =
   | "qtySuffix_ASC"
   | "qtySuffix_DESC";
 
+export type UserOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "password_ASC"
+  | "password_DESC";
+
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
+
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  password: String;
+}
 
 export type ProductWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
+
+export interface ProductUpdateInput {
+  groupId?: Maybe<Int>;
+  name?: Maybe<String>;
+  subname?: Maybe<String>;
+  description?: Maybe<String>;
+  images?: Maybe<String>;
+  price?: Maybe<Int>;
+  currency?: Maybe<String>;
+  qty?: Maybe<Int>;
+  qtySuffix?: Maybe<String>;
+}
 
 export interface ProductWhereInput {
   id?: Maybe<ID_Input>;
@@ -257,6 +322,65 @@ export interface ProductWhereInput {
   NOT?: Maybe<ProductWhereInput[] | ProductWhereInput>;
 }
 
+export interface ProductSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ProductWhereInput>;
+  AND?: Maybe<ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput>;
+  OR?: Maybe<ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput>;
+  NOT?: Maybe<ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput>;
+}
+
+export interface UserWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  password?: Maybe<String>;
+  password_not?: Maybe<String>;
+  password_in?: Maybe<String[] | String>;
+  password_not_in?: Maybe<String[] | String>;
+  password_lt?: Maybe<String>;
+  password_lte?: Maybe<String>;
+  password_gt?: Maybe<String>;
+  password_gte?: Maybe<String>;
+  password_contains?: Maybe<String>;
+  password_not_contains?: Maybe<String>;
+  password_starts_with?: Maybe<String>;
+  password_not_starts_with?: Maybe<String>;
+  password_ends_with?: Maybe<String>;
+  password_not_ends_with?: Maybe<String>;
+  AND?: Maybe<UserWhereInput[] | UserWhereInput>;
+  OR?: Maybe<UserWhereInput[] | UserWhereInput>;
+  NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
+}
+
 export interface ProductCreateInput {
   id?: Maybe<ID_Input>;
   groupId: Int;
@@ -270,16 +394,13 @@ export interface ProductCreateInput {
   qtySuffix: String;
 }
 
-export interface ProductUpdateInput {
-  groupId?: Maybe<Int>;
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface UserUpdateManyMutationInput {
   name?: Maybe<String>;
-  subname?: Maybe<String>;
-  description?: Maybe<String>;
-  images?: Maybe<String>;
-  price?: Maybe<Int>;
-  currency?: Maybe<String>;
-  qty?: Maybe<Int>;
-  qtySuffix?: Maybe<String>;
+  password?: Maybe<String>;
 }
 
 export interface ProductUpdateManyMutationInput {
@@ -294,96 +415,41 @@ export interface ProductUpdateManyMutationInput {
   qtySuffix?: Maybe<String>;
 }
 
-export interface ProductSubscriptionWhereInput {
+export interface UserSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
   updatedFields_contains_every?: Maybe<String[] | String>;
   updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ProductWhereInput>;
-  AND?: Maybe<ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput>;
-  OR?: Maybe<ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput>;
-  NOT?: Maybe<ProductSubscriptionWhereInput[] | ProductSubscriptionWhereInput>;
+  node?: Maybe<UserWhereInput>;
+  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+}
+
+export interface UserUpdateInput {
+  name?: Maybe<String>;
+  password?: Maybe<String>;
 }
 
 export interface NodeNode {
   id: ID_Output;
 }
 
-export interface Product {
-  id: ID_Output;
-  groupId: Int;
-  name: String;
-  subname?: String;
-  description?: String;
-  images?: String;
-  price: Int;
-  currency: String;
-  qty: Int;
-  qtySuffix: String;
+export interface UserEdge {
+  node: User;
+  cursor: String;
 }
 
-export interface ProductPromise extends Promise<Product>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  groupId: () => Promise<Int>;
-  name: () => Promise<String>;
-  subname: () => Promise<String>;
-  description: () => Promise<String>;
-  images: () => Promise<String>;
-  price: () => Promise<Int>;
-  currency: () => Promise<String>;
-  qty: () => Promise<Int>;
-  qtySuffix: () => Promise<String>;
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
+  cursor: () => Promise<String>;
 }
 
-export interface ProductSubscription
-  extends Promise<AsyncIterator<Product>>,
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  groupId: () => Promise<AsyncIterator<Int>>;
-  name: () => Promise<AsyncIterator<String>>;
-  subname: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  images: () => Promise<AsyncIterator<String>>;
-  price: () => Promise<AsyncIterator<Int>>;
-  currency: () => Promise<AsyncIterator<String>>;
-  qty: () => Promise<AsyncIterator<Int>>;
-  qtySuffix: () => Promise<AsyncIterator<String>>;
-}
-
-export interface ProductNullablePromise
-  extends Promise<Product | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  groupId: () => Promise<Int>;
-  name: () => Promise<String>;
-  subname: () => Promise<String>;
-  description: () => Promise<String>;
-  images: () => Promise<String>;
-  price: () => Promise<Int>;
-  currency: () => Promise<String>;
-  qty: () => Promise<Int>;
-  qtySuffix: () => Promise<String>;
-}
-
-export interface ProductConnection {
-  pageInfo: PageInfo;
-  edges: ProductEdge[];
-}
-
-export interface ProductConnectionPromise
-  extends Promise<ProductConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ProductEdge>>() => T;
-  aggregate: <T = AggregateProductPromise>() => T;
-}
-
-export interface ProductConnectionSubscription
-  extends Promise<AsyncIterator<ProductConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ProductEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateProductSubscription>() => T;
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PageInfo {
@@ -409,53 +475,68 @@ export interface PageInfoSubscription
   endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface ProductEdge {
-  node: Product;
-  cursor: String;
+export interface UserPreviousValues {
+  id: ID_Output;
+  name: String;
+  password: String;
 }
 
-export interface ProductEdgePromise extends Promise<ProductEdge>, Fragmentable {
-  node: <T = ProductPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface ProductEdgeSubscription
-  extends Promise<AsyncIterator<ProductEdge>>,
+export interface UserPreviousValuesPromise
+  extends Promise<UserPreviousValues>,
     Fragmentable {
-  node: <T = ProductSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  password: () => Promise<String>;
 }
 
-export interface AggregateProduct {
-  count: Int;
-}
-
-export interface AggregateProductPromise
-  extends Promise<AggregateProduct>,
+export interface UserPreviousValuesSubscription
+  extends Promise<AsyncIterator<UserPreviousValues>>,
     Fragmentable {
-  count: () => Promise<Int>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateProductSubscription
-  extends Promise<AsyncIterator<AggregateProduct>>,
+export interface ProductConnection {
+  pageInfo: PageInfo;
+  edges: ProductEdge[];
+}
+
+export interface ProductConnectionPromise
+  extends Promise<ProductConnection>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ProductEdge>>() => T;
+  aggregate: <T = AggregateProductPromise>() => T;
 }
 
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
+export interface ProductConnectionSubscription
+  extends Promise<AsyncIterator<ProductConnection>>,
     Fragmentable {
-  count: () => Promise<Long>;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ProductEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateProductSubscription>() => T;
 }
 
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
+}
+
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
 }
 
 export interface ProductSubscriptionPayload {
@@ -526,16 +607,179 @@ export interface ProductPreviousValuesSubscription
   qtySuffix: () => Promise<AsyncIterator<String>>;
 }
 
-/*
-The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
-*/
-export type ID_Input = string | number;
-export type ID_Output = string;
+export interface ProductEdge {
+  node: Product;
+  cursor: String;
+}
 
-/*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
-*/
-export type Int = number;
+export interface ProductEdgePromise extends Promise<ProductEdge>, Fragmentable {
+  node: <T = ProductPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ProductEdgeSubscription
+  extends Promise<AsyncIterator<ProductEdge>>,
+    Fragmentable {
+  node: <T = ProductSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface User {
+  id: ID_Output;
+  name: String;
+  password: String;
+}
+
+export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  password: () => Promise<String>;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+}
+
+export interface UserNullablePromise
+  extends Promise<User | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  password: () => Promise<String>;
+}
+
+export interface AggregateUser {
+  count: Int;
+}
+
+export interface AggregateUserPromise
+  extends Promise<AggregateUser>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUser>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Product {
+  id: ID_Output;
+  groupId: Int;
+  name: String;
+  subname?: String;
+  description?: String;
+  images?: String;
+  price: Int;
+  currency: String;
+  qty: Int;
+  qtySuffix: String;
+}
+
+export interface ProductPromise extends Promise<Product>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  groupId: () => Promise<Int>;
+  name: () => Promise<String>;
+  subname: () => Promise<String>;
+  description: () => Promise<String>;
+  images: () => Promise<String>;
+  price: () => Promise<Int>;
+  currency: () => Promise<String>;
+  qty: () => Promise<Int>;
+  qtySuffix: () => Promise<String>;
+}
+
+export interface ProductSubscription
+  extends Promise<AsyncIterator<Product>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  groupId: () => Promise<AsyncIterator<Int>>;
+  name: () => Promise<AsyncIterator<String>>;
+  subname: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  images: () => Promise<AsyncIterator<String>>;
+  price: () => Promise<AsyncIterator<Int>>;
+  currency: () => Promise<AsyncIterator<String>>;
+  qty: () => Promise<AsyncIterator<Int>>;
+  qtySuffix: () => Promise<AsyncIterator<String>>;
+}
+
+export interface ProductNullablePromise
+  extends Promise<Product | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  groupId: () => Promise<Int>;
+  name: () => Promise<String>;
+  subname: () => Promise<String>;
+  description: () => Promise<String>;
+  images: () => Promise<String>;
+  price: () => Promise<Int>;
+  currency: () => Promise<String>;
+  qty: () => Promise<Int>;
+  qtySuffix: () => Promise<String>;
+}
+
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
+}
+
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
+}
+
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
+}
+
+export interface BatchPayload {
+  count: Long;
+}
+
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
+    Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface AggregateProduct {
+  count: Int;
+}
+
+export interface AggregateProductPromise
+  extends Promise<AggregateProduct>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateProductSubscription
+  extends Promise<AsyncIterator<AggregateProduct>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
 
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
@@ -543,11 +787,22 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
+*/
+export type ID_Input = string | number;
+export type ID_Output = string;
+
+export type Long = string;
+
+/*
 The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean;
 
-export type Long = string;
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+*/
+export type Int = number;
 
 /**
  * Model Metadata
@@ -556,6 +811,10 @@ export type Long = string;
 export const models: Model[] = [
   {
     name: "Product",
+    embedded: false
+  },
+  {
+    name: "User",
     embedded: false
   }
 ];

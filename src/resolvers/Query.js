@@ -1,9 +1,12 @@
 const Query = {
-  products(root, args, ctx) {
-    return ctx.prisma.products();
+  products(root, args, context) {
+    return context.prisma.products();
   },
-  async product(root, args, context) {
+  product(root, args, context) {
     return context.prisma.product({ id: args.id });
+  },
+  user(root, args, context) {
+    return context.prisma.user({ id: args.id });
   }
 };
 

@@ -10,3 +10,9 @@ type Product {
   qty: Int!
   qtySuffix: String!
 }
+
+type User {
+  id: ID! @id
+  name: String!
+  password: String!
+}
