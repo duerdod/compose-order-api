@@ -8,5 +8,5 @@ const server = createServer();
 const port = process.env.NODE_ENV === 'production' ? process.env.PORT : 3000;
 
 server.start(() => {
-  console.log(`server is running on http://localhost:${port}`);
+  console.log(`server is running on ${port}`);
 });
