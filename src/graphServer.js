@@ -11,6 +11,7 @@ function createServer() {
       Mutation
     },
     context: request => {
+      // Used to access client headers on each db request.
       return {
         ...request,
         prisma
