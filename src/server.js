@@ -43,3 +43,9 @@ server.applyMiddleware({ app, cors: corsOptions });
 app.listen({ port, hostname }, () =>
   console.log(`Listen to ${hostname}:${port}`)
 );
+// Middleware
+
+// Start server
+server.start(() => {
+  console.log(`server is running on ${port}`);
+});
