@@ -1,10 +1,13 @@
 const Mutation = {
-  async createAccount(root, { name, password }, context) {
-    const user = await context.prisma.createUser({ name, password });
-    return user;
-  },
-  login(root, { name, password }, context, info) {
-    console.log(context);
+  async addProduct(parent, { ...args }, context) {
+    const product = await context.prisma.createProduct({
+      productName: args.productName,
+      brand: args.brand,
+      productType: args.productType,
+      description: args.description,
+      price: args.price
+    });
+    return product;
   }
 };
 

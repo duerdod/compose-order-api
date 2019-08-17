@@ -1,24 +1,30 @@
-const { prisma } = require('../generated/prisma-client');
-const { GraphQLServer } = require('graphql-yoga');
+/* eslint-disable */
+const { ApolloServer } = require('apollo-server-express');
+const { prisma } = require('../generated/prisma-client/index');
 const Query = require('./resolvers/Query');
 const Mutation = require('./resolvers/Mutation');
+const typeDefs = require('./schema');
 
-function createServer() {
-  return new GraphQLServer({
-    typeDefs: './src/schema.graphql',
+const corsOptions = {
+  origin: '*',
+  credentials: true
+};
+
+function graphServer() {
+  return new ApolloServer({
+    cors: corsOptions,
+    typeDefs,
     resolvers: {
       Query,
       Mutation
     },
-    context: request => {
-      return {
-        ...request,
-        prisma
-      };
-    },
-    debug: process.env.NODE_ENV === 'development',
-    resolverValidationOptions: { requireResolversForResolveType: false }
+    // Surfaces prisma db.
+    context: ({ req, res }) => ({
+      ...req,
+      ...res,
+      prisma
+    })
   });
 }
 
-module.exports = createServer;
+module.exports = graphServer;

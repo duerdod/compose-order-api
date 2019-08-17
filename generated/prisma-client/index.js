@@ -9,13 +9,13 @@ var models = [
     embedded: false
   },
   {
-    name: "User",
+    name: "Order",
     embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
   typeDefs,
   models,
-  endpoint: `${process.env["PRISMA_ENDPOINT"]}`
+  endpoint: `https://eu1.prisma.sh/erpe18-48bd69/compose-order-api/api`
 });
 exports.prisma = new exports.Prisma();
