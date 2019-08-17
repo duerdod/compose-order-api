@@ -19,20 +19,7 @@ function graphServer() {
       Mutation
     },
     // Surfaces prisma db.
-    context: ({ req, res }) => ({
-      ...req,
-      ...res,
-      prisma
-    })
-    context: request => {
-      // Used to access client headers on each db request.
-      return {
-        ...request,
-        prisma
-      };
-    },
-    debug: process.env.NODE_ENV === 'development',
-    resolverValidationOptions: { requireResolversForResolveType: false }
+    context: {prisma}
   });
 }
 

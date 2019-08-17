@@ -46,6 +46,6 @@ app.listen({ port, hostname }, () =>
 // Middleware
 
 // Start server
-server.start(() => {
+app.listen(() => {
   console.log(`server is running on ${port}`);
 });
